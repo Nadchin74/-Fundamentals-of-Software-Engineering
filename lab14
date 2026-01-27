@@ -1,0 +1,112 @@
+import os
+import pickle  # Модуль для роботи з бінарними даними
+
+def main():
+    print("--- ПОЧАТОК РОБОТИ З ФАЙЛАМИ ---")
+    
+    filename = "lab_text.txt"
+    filename_copy = "lab_text_copy.txt"
+    filename_replaced = "lab_text_replaced.txt"
+    filename_filtered = "lab_text_filtered.txt"
+    binary_filename = "data.bin"
+
+    # --- ЗАВДАННЯ 2: Запис у текстовий файл (Створення початкового файлу) ---
+    print("\n[Завдання 2] Створення файлу та запис даних.")
+    print("Введіть 3 рядки тексту для запису у файл:")
+    
+    with open(filename, 'w', encoding='utf-8') as f:
+        # Для автоматизації у звіті я емулюю введення, 
+        # але в реальності тут був би input()
+        lines_to_write = [
+            "Python - це потужна мова програмування.",
+            "Робота з файлами є важливою частиною розробки.",
+            "Студенти вивчають програмування."
+        ]
+        for line in lines_to_write:
+            print(f"Записую: {line}")
+            f.write(line + '\n')
+    print(f"Файл '{filename}' успішно створено.")
+
+    # --- ЗАВДАННЯ 3: Додавання тексту до файлу ---
+    print("\n[Завдання 3] Додавання нового рядка.")
+    with open(filename, 'a', encoding='utf-8') as f:
+        new_line = "Цей рядок було додано пізніше (Append)."
+        f.write(new_line + '\n')
+    print("Рядок успішно додано.")
+
+    # --- ЗАВДАННЯ 1: Читання текстового файлу ---
+    print("\n[Завдання 1] Читання вмісту файлу:")
+    print("-" * 20)
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f:
+            print(line.strip())
+    print("-" * 20)
+
+    # --- ЗАВДАННЯ 4: Підрахунок слів і символів ---
+    print("\n[Завдання 4] Статистика файлу.")
+    with open(filename, 'r', encoding='utf-8') as f:
+        content = f.read()
+        lines_count = content.count('\n')
+        words_count = len(content.split())
+        chars_count = len(content)
+        
+    print(f"Кількість рядків: {lines_count}")
+    print(f"Кількість слів: {words_count}")
+    print(f"Кількість символів: {chars_count}")
+
+    # --- ЗАВДАННЯ 5: Копіювання файлу ---
+    print(f"\n[Завдання 5] Копіювання з '{filename}' у '{filename_copy}'.")
+    with open(filename, 'r', encoding='utf-8') as src:
+        content = src.read()
+    
+    with open(filename_copy, 'w', encoding='utf-8') as dst:
+        dst.write(content)
+    print("Копіювання завершено.")
+
+    # --- ЗАВДАННЯ 6: Пошук і заміна тексту ---
+    search_word = "програмування"
+    replace_word = "КОДУВАННЯ"
+    print(f"\n[Завдання 6] Заміна '{search_word}' на '{replace_word}'.")
+    
+    with open(filename, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    new_content = content.replace(search_word, replace_word)
+    
+    with open(filename_replaced, 'w', encoding='utf-8') as f:
+        f.write(new_content)
+    print(f"Результат збережено у файл '{filename_replaced}'.")
+
+    # --- ЗАВДАННЯ 8: Фільтрація рядків ---
+    keyword = "Python"
+    print(f"\n[Завдання 8] Фільтрація рядків, що містять слово '{keyword}'.")
+    
+    with open(filename, 'r', encoding='utf-8') as f_in, \
+         open(filename_filtered, 'w', encoding='utf-8') as f_out:
+        for line in f_in:
+            if keyword in line:
+                f_out.write(line)
+                print(f"Знайдено та записано: {line.strip()}")
+    
+    # --- ЗАВДАННЯ 7: Робота з бінарними файлами ---
+    print("\n[Завдання 7] Бінарні файли.")
+    numbers = [10, 25, 50, 100, 5]
+    print(f"Вихідний список чисел: {numbers}")
+    
+    # Запис у бінарний файл
+    with open(binary_filename, 'wb') as f:
+        pickle.dump(numbers, f)
+    print("Список записано у бінарний файл.")
+    
+    # Читання з бінарного файлу та обчислення суми
+    with open(binary_filename, 'rb') as f:
+        loaded_numbers = pickle.load(f)
+        total_sum = sum(loaded_numbers)
+    
+    print(f"Зчитаний список: {loaded_numbers}")
+    print(f"Сума чисел: {total_sum}")
+
+    print("\n--- ВСІ ЗАВДАННЯ ВИКОНАНО ---")
+
+if __name__ == "__main__":
+    main()
